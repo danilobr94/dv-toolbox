@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+scikit-learn = "*"
+pandas = "*"
+streamlit = "*"
+jupyter = "*"
+matplotlib = "*"
+black = "*"
+altair = "*"
+vega-datasets = "*"
+mlxtend = "*"
+plotly = "*"
+plotly-express = "*"
+streamlit-metrics = "*"
+pipreqs = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
