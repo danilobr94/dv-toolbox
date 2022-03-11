@@ -205,9 +205,11 @@ def dv_fn_selector(dv_options: Tuple[DVMethodBase], container=None):
 
 
 def show_info():
+
     st.sidebar.markdown(
         """
-        [<img src="https://github.com/danilobr94/dv-toolbox/blob/main/images/ipa_logo.png" width=25 height=25>](https://www.ipa.fraunhofer.de/) 
+        [<img src="https://github.com/danilobr94/dv-toolbox/blob/main/images/ipa_logo.png" \
+        width=25 height=25>](https://www.ipa.fraunhofer.de/)
         """,
         unsafe_allow_html=True,
     )
