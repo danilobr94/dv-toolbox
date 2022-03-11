@@ -50,7 +50,6 @@ def add_new_point(X_train, y_train, x_new, label_new, syn):
     X_train_new = np.vstack([X_train, x_new])
     label_new = syn.get_labels(x_new) if label_new == "auto" else int(label_new)
     y_train_new = np.hstack([y_train, int(label_new)])
-    print(X_train_new)
 
     return X_train_new, y_train_new
 
