@@ -17,6 +17,10 @@ plotly = "*"
 plotly-express = "*"
 streamlit-metrics = "*"
 pipreqs = "*"
+numpy = "*"
+tensorflow = "*"
+imageio = "*"
+stqdm = "*"
 
 [dev-packages]
 
