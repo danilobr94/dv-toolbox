@@ -23,22 +23,18 @@ Y_BOUNDS = (-10.0, 20.0)
 
 
 def dataset_selector(container=None):
+    """"""
     dataset_container = st.sidebar.expander(
         "Dataset", False) if container is None else container
 
     with dataset_container:
         num_blobs = st.slider(
-            "Set number of blobs",
-            min_value=2,
-            max_value=10,
-            step=1,
-            value=2,
-        )
+            "Set number of blobs", min_value=2, max_value=10, step=1, value=2,)
 
         st.markdown("""---""", unsafe_allow_html=True)
 
         def blob_selector(i, default_x=10.0, default_y=7.0, lbl=None):
-
+            """Helper function to set values for a single blob."""
             x = st.slider("x-value for blob " + str(i), X_BOUNDS[0], X_BOUNDS[1], default_x, 0.5)
             y = st.slider("y-value for blob " + str(i), Y_BOUNDS[0], Y_BOUNDS[1], default_y, 0.5)
 
@@ -89,11 +85,12 @@ def dataset_selector(container=None):
 
 
 def model_selector(container=None):
-    model_training_container = st.sidebar.expander(
-        "Model selection", True) if container is None else container
+    """"""
+    model_training_container = st.sidebar.expander("Model selection", True) if container is None else container
 
     with model_training_container:
-        model_type = st.selectbox("Choose a model", [m.NAME for m in MODELS], )
+        model_type = st.selectbox(
+            "Choose a model", [m.NAME for m in MODELS], )
 
         for model_class in MODELS:
             if model_class.NAME == model_type:
@@ -104,6 +101,7 @@ def model_selector(container=None):
 
 
 def num_repetitions_selector(container=None):
+    """"""
     container = st.sidebar.expander(
         "Number of Repetitions", True) if container is None else container
 
@@ -117,6 +115,7 @@ def num_repetitions_selector(container=None):
 
 
 def label_selector(container=None):
+    """"""
     container = st.sidebar.expander(
         "Label Selection", True) if container is None else container
 
@@ -127,6 +126,7 @@ def label_selector(container=None):
 
 
 def point_slider(container=None):
+    """"""
     slider_container = st.sidebar.expander(
         "Point Position Selection", True) if container is None else container
 
@@ -139,6 +139,7 @@ def point_slider(container=None):
 
 
 def step_selector(container=None):
+    """"""
     container = st.sidebar.expander(
         "Number of steps", True) if container is None else container
 
@@ -150,6 +151,7 @@ def step_selector(container=None):
 
 
 def step_size_selector(container=None):
+    """"""
     container = st.sidebar.expander(
         "Step size", True) if container is None else container
 
@@ -161,6 +163,7 @@ def step_size_selector(container=None):
 
 
 def num_models_selector(container=None):
+    """"""
     container = st.sidebar.expander(
         "Number of models", True) if container is None else container
 
@@ -172,6 +175,7 @@ def num_models_selector(container=None):
 
 
 def num_hidden_layers_selector(container=None):
+    """"""
     container = st.sidebar.expander(
         "Number of hidden layers", True) if container is None else container
 
@@ -183,6 +187,7 @@ def num_hidden_layers_selector(container=None):
 
 
 def size_hidden_layer_selector(container=None):
+    """"""
     container = st.sidebar.expander(
         "Size of hidden layer", True) if container is None else container
 
@@ -194,6 +199,7 @@ def size_hidden_layer_selector(container=None):
 
 
 def dv_fn_selector(dv_options: Tuple[DVMethodBase], container=None):
+    """"""
     dv_container = st.sidebar.expander(
         "Data Valuation Method", True) if container is None else container
 
@@ -205,7 +211,7 @@ def dv_fn_selector(dv_options: Tuple[DVMethodBase], container=None):
 
 
 def show_info():
-
+    """"""
     st.sidebar.markdown(
         """
         [<img src="https://github.com/danilobr94/dv-toolbox/blob/main/images/ipa_logo.png" \

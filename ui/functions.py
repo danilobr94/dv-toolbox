@@ -1,5 +1,4 @@
 import base64
-from itertools import count
 import os
 from pathlib import Path
 
@@ -153,10 +152,7 @@ def display_graph():
     """
     syn = SyntheticData(num_per_pos_label=(500,), num_per_neg_label=(500,))
     data, labels = syn.sample_initial_data()
-
-    sct = Scatter2D(
-        data, labels, x_lim=(-10, 20), y_lim=(-10, 20))
-
+    sct = Scatter2D(data, labels, x_lim=(-10, 20), y_lim=(-10, 20))
     return sct.show(), syn
 
 
@@ -323,7 +319,7 @@ def baseline_df(baseline_model, syn):
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True, show_spinner=True)
 def show_heatmap(X_train, y_train, xx, yy, X_test, y_test, dv, syn_func, model_func,):
-    """[Show the heatmap for data value methods]
+    """Show the heatmap for data value methods
 
     Args:
         X_train : [Training data]
@@ -338,11 +334,7 @@ def show_heatmap(X_train, y_train, xx, yy, X_test, y_test, dv, syn_func, model_f
     Returns:
         [scatter]: [returns Scatter Plot heatmap]
     """
-    """
-    baseline_model = MLP(hidden_layer_sizes=1000,
-                         activation='relu', max_iter=1000)
 
-    """
     st.spinner('In Progress')
     dv = np.asarray(dv).reshape(xx.shape)
     im = plt.contourf(xx, yy, dv, cmap="RdBu", alpha=.5)
@@ -381,18 +373,4 @@ def gif_gen():
             os.remove(os.path.join(png_dir, images))
 
 
-def get_binary_file_downloader_html(bin_file="out/dv_gif.gif", file_label='GIF'):
-    """[Show the heatmap for data value methods]
 
-    Args:
-        bin_file : [Selected gif(path) file to be downloaded]
-        file_label : [label of type of file: GIF]
-
-    Returns:
-        [http]: [Link reference to download the gif]
-    """
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    bin_str = base64.b64encode(data).decode()
-    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}"> {file_label}</a>'
-    return href
