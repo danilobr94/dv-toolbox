@@ -25,7 +25,10 @@ def _introduction():
 
 
 def app():
+
     # sidebar
+    project_links()
+
     x_train, x_test, y_train, y_test, syn = dataset_selector()
     model_class, model = model_selector()
     num_repetitions = num_repetitions_selector()

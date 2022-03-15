@@ -1,6 +1,6 @@
 """Page for plotting heatmap of data values with different methods."""
 from ui.functions import *
-from ui.sidebar_components import dataset_selector, dv_fn_selector, show_info, step_size_selector
+from ui.sidebar_components import dataset_selector, dv_fn_selector, show_info, step_size_selector, project_links
 from dv_methods.catastrophic_forgetting import ForgettingDV
 from dv_methods.memorization import MemorizationDV
 from dv_methods.model_ensemble import EnsembleOOD
@@ -15,7 +15,8 @@ DV_METHODS = (EnsembleOOD, ForgettingDV, MemorizationDV,
 def app():
     st.set_option('deprecation.showPyplotGlobalUse', False)
 
-    # side bar
+    # Sidebar
+    project_links()
     X_train, X_test, y_train, y_test, syn = dataset_selector()
     step_size = step_size_selector()
     dv_function = dv_fn_selector(DV_METHODS)(X_train, y_train)

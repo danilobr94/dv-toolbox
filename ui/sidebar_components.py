@@ -24,12 +24,12 @@ Y_BOUNDS = (-10.0, 20.0)
 
 def project_links(container=None):
     """Links to related apps."""
-    container = st.sidebar.expander("Related Links", False) if container is None else container
+    container = st.sidebar.expander("Related Apps", True) if container is None else container
 
     with container:
-        st.write("[Create a gif](https://share.streamlit.io/danilobr94/dv-toolbox/autorun)")
-        st.write("[Play with points](https://share.streamlit.io/danilobr94/dv-toolbox/home)")
-        st.write("[Create heatmap](https://share.streamlit.io/danilobr94/dv-toolbox/heatmap)")
+        st.write("[Create a gif](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_autorun.py)")
+        st.write("[Play with teh decision boundary](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_home.py)")
+        st.write("[Create heatmap](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_heatmap.py)")
 
 
 def dataset_selector(container=None):

@@ -7,6 +7,8 @@ from ui.sidebar_components import *
 
 def app():
     # Sidebar
+    project_links()
+
     x_train, x_test, y_train, y_test, syn = dataset_selector()
     model_class, model = model_selector()
     step = step_size_selector()
