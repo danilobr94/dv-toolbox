@@ -37,7 +37,6 @@ def app():
 
     for crdnt in stqdm(crdnts):
         st.spinner(text="In progress...")
-        # fname = 'dv_loo{}.png'.format(crdnt)
         x_train_new, y_train_new = add_new_point(x_train,
                                                  y_train,
                                                  crdnt,
@@ -45,19 +44,16 @@ def app():
                                                  syn)
 
         model.fit(x_train_new, y_train_new)
-
         db_diff = comp_diff(base_model, model, inv_diff=False)
-
         sct = point_added_graph(model, base_model,
                                 x_train_new, y_train_new,
                                 x_test, y_test, save_gif=False,
-                                title=("Decision boundary changev(DV):" + str(db_diff[-1])))
+                                title=("Decision boundary changev:" + str(db_diff[-1])))
+
         plot1_placeholder.pyplot(sct)
 
-    gif_gen()
-    st.markdown(get_binary_file_downloader_html(
-        'out/dv_gif.gif', 'Export GIF'), unsafe_allow_html=True)
-    # duration_placeholder.warning(f"Training took {duration:.3f} seconds")
+    # gif_gen()
+    # st.markdown(get_binary_file_downloader_html('out/dv_gif.gif', 'Export GIF'), unsafe_allow_html=True)
     model_url_placeholder.markdown(model_class.URL)
 
 
