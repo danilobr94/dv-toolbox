@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import streamlit as st
 import sklearn
-from data.decisionboundary import Scatter2D
+from data.decision_boundary import Scatter2D
 from stqdm import stqdm
 from .base import DVMethodBase
 from ui.sidebar_components import model_selector

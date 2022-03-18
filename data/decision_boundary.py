@@ -1,12 +1,6 @@
-import imp
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA
-from matplotlib.figure import Figure, figaspect
-from matplotlib import docstring
-import functools
-from matplotlib import _api
-from matplotlib.pyplot import savefig
 
 
 class Scatter2D:
@@ -32,8 +26,8 @@ class Scatter2D:
         self.X_test = X_test
         self.y_test = y_test
 
-        X = np.vstack([X_train, X_test]) if X_test is not None else X_train
-        X = self._maybe_downsample(X)
+        X = np.vstack([X_train, X_test]) if X_test is not None else X_train  # noqa
+        X = self._maybe_downsample(X)  # noqa
 
         self.x_lim = x_lim if x_lim is not None else (
             min(X[:, 0]), max(X[:, 0]))
@@ -44,14 +38,14 @@ class Scatter2D:
         self._downsampled = False
         self.downsampler = downnsampler
 
-    def _maybe_downsample(self, X):
+    def _maybe_downsample(self, X):  # noqa
         """Maybe down-sample data to 2D for data."""
         if self.X_train.shape[1] > 2:
             self._downsampled = True
             return self.downsampler.fit_transform(X)
         return X
 
-    def _maybe_upsample(self, X):
+    def _maybe_upsample(self, X):  # noqa
         """Maybe up-sample data again.."""
         if self._downsampled:
             return self.downsampler.inverse_transform(X)
@@ -67,7 +61,7 @@ class Scatter2D:
 
         """
 
-        X = self._maybe_downsample(X)
+        X = self._maybe_downsample(X)  # noqa
         s = np.ones_like(y)*10 if scatter_size is None else scatter_size
 
         def scatter_(mask, label, _marker='x', _color='green'):

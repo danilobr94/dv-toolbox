@@ -28,7 +28,7 @@ def project_links(container=None):
 
     with container:
         st.write("[Create a gif](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_autorun.py)")
-        st.write("[Play with teh decision boundary](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_home.py)")
+        st.write("[Play with the decision boundary](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_home.py)")
         st.write("[Create heatmap](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_heatmap.py)")
 
 
@@ -43,18 +43,18 @@ def dataset_selector(container=None):
 
         st.markdown("""---""", unsafe_allow_html=True)
 
-        def blob_selector(i, default_x=10.0, default_y=7.0, lbl=None):
+        def blob_selector(k, default_x=10.0, default_y=7.0, lbl=None):
             """Helper function to set values for a single blob."""
-            x = st.slider("x-value for blob " + str(i), X_BOUNDS[0], X_BOUNDS[1], default_x, 0.5)
-            y = st.slider("y-value for blob " + str(i), Y_BOUNDS[0], Y_BOUNDS[1], default_y, 0.5)
+            x = st.slider("x-value for blob " + str(k), X_BOUNDS[0], X_BOUNDS[1], default_x, 0.5)
+            y = st.slider("y-value for blob " + str(k), Y_BOUNDS[0], Y_BOUNDS[1], default_y, 0.5)
 
-            cov = st.slider("Covariance for blob " + str(i), -1, 5, 1)
-            num_samples = st.number_input("Number of samples for blob " + str(i), 1, 250, 50)
+            cov = st.slider("Covariance for blob " + str(k), -1, 5, 1)
+            num_samples = st.number_input("Number of samples for blob " + str(k), 1, 250, 50)
 
             if lbl is None:
-                lbl = st.selectbox("Label for blob " + str(i), (LABEL_POS, LABEL_NEG))
+                lbl = st.selectbox("Label for blob " + str(k), (LABEL_POS, LABEL_NEG))
             else:
-                lbl = st.selectbox("Label for blob " + str(i), (lbl, ), disabled=True)
+                lbl = st.selectbox("Label for blob " + str(k), (lbl, ), disabled=True)
 
             st.markdown("""---""", unsafe_allow_html=True)
             return x, y, lbl, np.eye(2)*cov, num_samples
@@ -89,7 +89,7 @@ def dataset_selector(container=None):
 
         data, labels = syn.sample_initial_data()
 
-        X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.33, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.33, random_state=42)  # noqa
 
     return X_train, X_test, y_train, y_test, syn
 
