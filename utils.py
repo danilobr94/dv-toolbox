@@ -6,6 +6,7 @@ from ui.sidebar_components import LABEL_AUTO
 
 def add_point(X_train, y_train, x_new, label_new, syn):  # noqa
     """Appends 'x_new' to 'X_train' and 'label_new' to 'y_train'."""
+    print(X_train.shape, x_new.shape)
     X_train_new = np.vstack([X_train, x_new])  # noqa
     label_new = syn.get_labels(x_new) if label_new == LABEL_AUTO else int(label_new)
     y_train_new = np.hstack([y_train, int(label_new)])

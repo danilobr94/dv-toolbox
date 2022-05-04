@@ -8,6 +8,7 @@ from stqdm import stqdm
 from .base import DVMethodBase
 from ui.sidebar_components import model_selector
 from dv_methods.metrics import DecisionBoundaryDifference
+from ui.sidebar_components import X_BOUNDS, Y_BOUNDS
 
 
 class LOODV(DVMethodBase):
@@ -25,13 +26,12 @@ class LOODV(DVMethodBase):
             X_base:
             y_base:
         """
-        _, self.model = model_selector()
-        # TODO: need to set the limits somewhere central ...
+        self.model_class, self.model = model_selector()
         self.base_model = sklearn.base.clone(self.model)
         self.base_model.fit(X_base, y_base)
 
-        self.metric = DecisionBoundaryDifference(x_lim=(-10, 20),
-                                                 y_lim=(-10, 20),
+        self.metric = DecisionBoundaryDifference(x_lim=X_BOUNDS,
+                                                 y_lim=Y_BOUNDS,
                                                  baseline_model=self.base_model.predict,
                                                  mesh_size=500).compute_difference
 

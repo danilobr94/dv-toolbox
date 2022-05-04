@@ -12,12 +12,9 @@ def plot_multiple_iterations(X_train_new, y_train_new, X_test, y_test, # noqa
                              title='Decision boundary stability'):
     """"""
 
-    sct = Scatter2D(X_train_new, y_train_new,
+    sct = Scatter2D(X_train_new[:-1, :], y_train_new[:-1],  # hide the new point here
                     X_test, y_test,
                     x_lim=(-10, 20), y_lim=(-10, 20), )
-
-    color = "grey" if not train_on_x_new else "tab:orange" if y_train_new[-1] == 1 else "tab:blue"
-    plt.scatter(X_train_new[-1, 0], X_train_new[-1, 1], marker="D", color=color, s=100)
 
     for _ in range(num_iter):
         new_model = sklearn.base.clone(model)
@@ -28,6 +25,10 @@ def plot_multiple_iterations(X_train_new, y_train_new, X_test, y_test, # noqa
             new_model.fit(X_train_new[:-1, :], y_train_new[:-1])
 
         sct.add_boundary(new_model.predict)
+
+    # add diamond for the new point
+    color = "grey" if not train_on_x_new else "tab:orange" if y_train_new[-1] == 1 else "tab:blue"
+    plt.scatter(X_train_new[-1, 0], X_train_new[-1, 1], marker="D", color=color, s=100)
 
     return sct.show(title=title)
 
@@ -40,7 +41,8 @@ def app():
     x_train, x_test, y_train, y_test, syn = dataset_selector()
     model_class, model = model_selector()
     num_repetitions = num_repetitions_selector()
-    x_new, label_new = point_slider()
+    label_new = label_selector()
+    x_new = point_slider()
     show_info()
 
     # body

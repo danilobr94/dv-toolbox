@@ -32,6 +32,17 @@ def project_links(container=None):
         st.write("[Create heatmap](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_heatmap.py)")
 
 
+@st.cache
+def _get_data(means_pos, cov_pos, means_neg, cov_neg, num_per_pos_label, num_per_neg_label):
+    """"""
+    syn = SyntheticData(means_pos, cov_pos,
+                        means_neg, cov_neg,
+                        num_per_pos_label, num_per_neg_label)
+
+    data, labels = syn.sample_initial_data()
+    return data, labels, syn
+
+
 def dataset_selector(container=None):
     """"""
     dataset_container = st.sidebar.expander(
@@ -49,7 +60,7 @@ def dataset_selector(container=None):
             y = st.slider("y-value for blob " + str(k), Y_BOUNDS[0], Y_BOUNDS[1], default_y, 0.5)
 
             cov = st.slider("Covariance for blob " + str(k), -1, 5, 1)
-            num_samples = st.number_input("Number of samples for blob " + str(k), 1, 250, 50)
+            num_samples = st.number_input("Number of samples for blob " + str(k), 1, 500, 250)
 
             if lbl is None:
                 lbl = st.selectbox("Label for blob " + str(k), (LABEL_POS, LABEL_NEG))
@@ -83,11 +94,8 @@ def dataset_selector(container=None):
                 cov_neg.append(cov_)
                 num_per_neg_label.append(num_)
 
-        syn = SyntheticData(means_pos, cov_pos,
-                            means_neg, cov_neg,
-                            num_per_pos_label, num_per_neg_label)
-
-        data, labels = syn.sample_initial_data()
+        data, labels, syn = _get_data(means_pos, cov_pos, means_neg, cov_neg,
+                                      num_per_pos_label, num_per_neg_label)
 
         X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.33, random_state=42)  # noqa
 
@@ -141,11 +149,10 @@ def point_slider(container=None):
         "Point Position Selection", True) if container is None else container
 
     with slider_container:
-        label = st.selectbox("Choose label", LABEL_OPTIONS)
         x1 = st.slider("Slider for x position", X_BOUNDS[0], X_BOUNDS[1], -8.0, 0.5)
         x2 = st.slider("Slider for y position", X_BOUNDS[0], X_BOUNDS[1], -8.0, 0.5)
 
-    return np.array([x1, x2]), label
+    return np.array([x1, x2])
 
 
 def step_selector(container=None):
