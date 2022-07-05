@@ -1,11 +1,12 @@
 """Last-learned samples"""
 import streamlit as st
 import numpy as np
-from .base import DVMethodBase
-from ui.sidebar_components import num_models_selector, size_hidden_layer_selector
 from sklearn.neural_network import MLPClassifier as MLP
-from stqdm import stqdm
 import sklearn as sk
+
+from .base import DVMethodBase
+from ui.sidebar_components import size_hidden_layer_selector
+from utils import StreamlitProgressBar
 
 
 class LastLearnedDV(DVMethodBase):
@@ -40,7 +41,7 @@ class LastLearnedDV(DVMethodBase):
     def predict_dv(self, X, y):
         """"""
         forgetting_stats = np.zeros_like(y)
-        for i in stqdm(range(X.shape[0])):
+        for i in StreamlitProgressBar(range(X.shape[0])):
             X_train_new = np.vstack([self.X_base, X[i]])
             y_train_new = np.hstack([self.y_base, y[i]])
 

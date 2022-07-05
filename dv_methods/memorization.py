@@ -1,11 +1,12 @@
 """Data valuation with memorization."""
 import numpy as np
 import sklearn
-from stqdm import stqdm
+import streamlit as st
+
+from utils import StreamlitProgressBar
 from ui.sidebar_components import num_models_selector
 from models.NeuralNetwork import NN
 from .base import DVMethodBase
-import streamlit as st
 
 
 class MemorizationDV(DVMethodBase):
@@ -30,14 +31,14 @@ class MemorizationDV(DVMethodBase):
             self.model = NN.param_selector()
 
         self.num_models = num_models_selector(container)
-    @st.cache(suppress_st_warning=True)
+
     def predict_dv(self, X, y, *args):
         """"""
         db_diff = []
 
         # Make predictions with the baseline model
         base_predictions = []
-        for _ in stqdm(range(self.num_models)):
+        for _ in range(self.num_models):
             base_model = sklearn.base.clone(self.model)
             if self.X_base is not None:
                 base_model.fit(self.X_base, self.y_base)
@@ -50,7 +51,7 @@ class MemorizationDV(DVMethodBase):
 
         # Make predictions with models trained without each x_i
         predictions = []
-        for i in stqdm(range(X.shape[0])):
+        for i in StreamlitProgressBar(range(X.shape[0])):
 
             if self.X_base is not None:
                 X_train_new = np.vstack([self.X_base, X[i]])

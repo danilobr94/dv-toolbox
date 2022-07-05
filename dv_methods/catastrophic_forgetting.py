@@ -3,9 +3,10 @@ import streamlit as st
 import numpy as np
 import sklearn as sk
 from sklearn.neural_network import MLPClassifier as MLP
+
 from .base import DVMethodBase
 from ui.sidebar_components import num_hidden_layers_selector, size_hidden_layer_selector
-from stqdm import stqdm
+from utils import StreamlitProgressBar
 
 
 class ForgettingDV(DVMethodBase):
@@ -23,8 +24,7 @@ class ForgettingDV(DVMethodBase):
         self.model = MLP(hidden_layer_sizes=self.hidden_layer_sizes,
                          activation='relu', max_iter=1, warm_start=True)
 
-        self.base_model = MLP(
-            hidden_layer_sizes=self.hidden_layer_sizes, activation='relu')
+        self.base_model = MLP(hidden_layer_sizes=self.hidden_layer_sizes, activation='relu')
         self.base_model.fit(X_base, y_base)
 
         self.X_base = X_base
@@ -32,11 +32,10 @@ class ForgettingDV(DVMethodBase):
 
         self.num_epochs = 100
 
-    st.cache(suppress_st_warning=True)
     def predict_dv(self, X, y):
         """"""
         forgetting_stats = np.zeros_like(y)
-        for i in stqdm(range(X.shape[0])):
+        for i in StreamlitProgressBar(range(X.shape[0])):
 
             X_train_new = np.vstack([self.X_base, X[i]])
             y_train_new = np.hstack([self.y_base, y[i]])

@@ -1,13 +1,14 @@
 import numpy as np
 import tensorflow as tf
 import streamlit as st
-from stqdm import stqdm
+
+from utils import StreamlitProgressBar
 from .base import DVMethodBase
 from ui.sidebar_components import num_hidden_layers_selector, num_models_selector, size_hidden_layer_selector
 
 
 class MCDV(DVMethodBase):
-    """Data valuation using MC drop out in keras."""
+    """Data valuation using MC drop with in keras."""
 
     NAME = "MC Dropout"
     URL = "TBD"
@@ -47,11 +48,9 @@ class MCDV(DVMethodBase):
         self.base_model = _get_model(mc=False)
 
         # Fit model
-        for _ in stqdm(range(num_epochs)):
-            self.model.fit(X_base, [y_base],
-                           batch_size=batch_size, epochs=1, verbose=0)
-            self.base_model.fit(
-                X_base, [y_base], batch_size=batch_size, epochs=1, verbose=0)
+        for _ in range(num_epochs):
+            self.model.fit(X_base, [y_base], batch_size=batch_size, epochs=1, verbose=0)
+            self.base_model.fit(X_base, [y_base], batch_size=batch_size, epochs=1, verbose=0)
 
     def evaluate_mc(self, X_test, y_test, num_steps=100):
         """"""
@@ -60,21 +59,15 @@ class MCDV(DVMethodBase):
         print("Mean accuarcy:", np.mean(acc), "std:", np.std(acc))
         print("Min:", np.min(acc), "max:", np.max(acc))
 
-    @st.cache(suppress_st_warning=True)
     def predict(self, X):
         """"""
         return np.argmax(self.base_model.predict(X), axis=1)
-
-        # predictions = np.array([np.argmax(self.model.predict(X, verbose=0), axis=1) for _ in range(self.num_mc_steps)])
-        # bins = np.array([np.bincount(predictions[:, i], minlength=2) for i in range(predictions.shape[1])])
-        # pred = np.argmax(bins, axis=1)
-        # return pred
 
     def predict_dv(self, X, _y):
         """"""
         predictions = np.array(
             [np.argmax(self.model.predict(X, verbose=0), axis=1)
-             for _ in stqdm(range(self.num_mc_steps))]
+             for _ in StreamlitProgressBar(range(self.num_mc_steps))]
         )
         std = np.std(predictions, axis=0)
         return std, self

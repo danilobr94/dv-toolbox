@@ -24,7 +24,8 @@ Y_BOUNDS = (-10.0, 20.0)
 
 def project_links(container=None):
     """Links to related apps."""
-    container = st.sidebar.expander("Related Apps", True) if container is None else container
+    container = st.sidebar.expander(
+        "Related Apps", True) if container is None else container
 
     with container:
         st.write("[Create a gif](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_autorun.py)")
@@ -60,7 +61,7 @@ def dataset_selector(container=None):
             y = st.slider("y-value for blob " + str(k), Y_BOUNDS[0], Y_BOUNDS[1], default_y, 0.5)
 
             cov = st.slider("Covariance for blob " + str(k), -1, 5, 1)
-            num_samples = st.number_input("Number of samples for blob " + str(k), 1, 500, 250)
+            num_samples = st.number_input("Number of samples for blob " + str(k), 25, 500, 250)
 
             if lbl is None:
                 lbl = st.selectbox("Label for blob " + str(k), (LABEL_POS, LABEL_NEG))
@@ -84,6 +85,7 @@ def dataset_selector(container=None):
         # Maybe add boxes for the other blobs
         for i in range(3, num_blobs+1):
             x_, y_, lbl_, cov_, num_ = blob_selector(i)
+
             if lbl_ == LABEL_POS:
                 means_pos.append((x_, y_))
                 cov_pos.append(cov_)
@@ -104,12 +106,13 @@ def dataset_selector(container=None):
 
 def model_selector(container=None):
     """"""
-    model_training_container = st.sidebar.expander("Model selection", True) if container is None else container
+    model_training_container = st.sidebar.expander(
+        "Model selection", True) if container is None else container
 
     with model_training_container:
-        model_type = st.selectbox(
-            "Choose a model", [m.NAME for m in MODELS], )
+        model_type = st.selectbox("Choose a model", [m.NAME for m in MODELS], )
 
+        #TODO: geht eleganter...
         for model_class in MODELS:
             if model_class.NAME == model_type:
                 model = model_class.param_selector()
@@ -174,7 +177,7 @@ def step_size_selector(container=None):
 
     with container:
         num_steps = st.number_input(
-            "Set step size:", min_value=1, value=1, step=1)
+            "Set step size:", min_value=1, value=3, step=1)
 
     return num_steps
 
@@ -217,22 +220,22 @@ def size_hidden_layer_selector(container=None):
 
 def dv_fn_selector(dv_options: Tuple[DVMethodBase], container=None):
     """"""
-    dv_container = st.sidebar.expander(
-        "Data Valuation Method", True) if container is None else container
+    dv_container = st.sidebar.expander("Data Valuation Method", True) if container is None else container
 
     with dv_container:
-        dv_functions = st.selectbox(
-            "Choose a method", options=dv_options, format_func=lambda option: option.NAME)
+        dv_function = st.selectbox("Choose a method", [option.NAME for option in dv_options])
 
-    return dv_functions
+        # TODO: geht eleganter...
+        for dv_method in dv_options:
+            if dv_method.NAME == dv_function:
+                return dv_method
+
+    return dv_function
 
 
 def show_info():
     """"""
-    st.sidebar.markdown(
-        """
-        [<img src="https://github.com/danilobr94/dv-toolbox/blob/main/images/ipa_logo.png" \
-        width=25 height=25>](https://www.ipa.fraunhofer.de/)
-        """,
-        unsafe_allow_html=True,
+    st.sidebar.markdown("[<img src=https://danilobr94.github.io/dv-toolbox/images/ipa_logo.png width=70% height=70%>]"
+                        "(https://www.ipa.fraunhofer.de/)",
+                        unsafe_allow_html=True,
     )

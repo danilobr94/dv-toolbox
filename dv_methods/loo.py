@@ -1,14 +1,13 @@
 """Leave-one-out data valuation"""
-import matplotlib.pyplot as plt
 import numpy as np
-import streamlit as st
 import sklearn
-from data.decision_boundary import Scatter2D
-from stqdm import stqdm
+
+
 from .base import DVMethodBase
 from ui.sidebar_components import model_selector
 from dv_methods.metrics import DecisionBoundaryDifference
 from ui.sidebar_components import X_BOUNDS, Y_BOUNDS
+from utils import StreamlitProgressBar
 
 
 class LOODV(DVMethodBase):
@@ -38,12 +37,11 @@ class LOODV(DVMethodBase):
         self.X_base = X_base
         self.y_base = y_base
 
-
     def predict_dv(self, X, y, inv_diff=False):
         """"""
 
         db_diff = []
-        for i in stqdm(range(X.shape[0])):
+        for i in StreamlitProgressBar(range(X.shape[0])):
             if self.X_base is not None:
                 X_train_new = np.vstack([self.X_base, X[i]])
                 y_train_new = np.hstack([self.y_base, y[i]])

@@ -1,7 +1,64 @@
 """Utility functions"""
 import plotly.graph_objs as go
 import numpy as np
+import streamlit as st
+import time
+
 from ui.sidebar_components import LABEL_AUTO
+
+
+class StreamlitProgressBar:
+    """Custom sidebar with text.
+
+    This was necessary, because 'stqdm' sometimes caused the app to freeze.
+    """
+
+    def __init__(self, iterable):
+        """"""
+        self.iterable = iterable
+
+        self.current_item = 0
+        self.num_items = len(iterable)
+
+        self.text = st.container().empty()
+
+        self.prev_time = time.time()
+        self.times = []
+
+        self.p_bar = st.progress(0.0)
+
+    def _format_text(self):
+        """"""
+        avg = np.mean(self.times)
+        eta = avg * (self.num_items - self.current_item)
+        total = np.sum(self.times)
+
+        return f"{self.current_item}/{self.num_items} [{round(total, 2)} < {round(eta, 2)}, {round(avg, 2)}s/it]"
+
+    def __next__(self):
+        """"""
+        current_time = time.time()
+
+        if self.current_item >= self.num_items:
+            self.p_bar.empty()
+            self.text.empty()
+            raise StopIteration
+
+        self.times.append(current_time - self.prev_time)
+        self.prev_time = current_time
+
+        item = self.iterable[self.current_item]
+        self.current_item += 1
+
+        self.text.empty()
+        self.text.write(self._format_text())
+        self.p_bar.progress(self.current_item / self.num_items)
+
+        return item
+
+    def __iter__(self):
+        """"""
+        return self
 
 
 def add_point(X_train, y_train, x_new, label_new, syn):  # noqa

@@ -49,38 +49,39 @@ def app():
     X_mesh = np.c_[xx.ravel(), yy.ravel()]  # noqa
     y_mesh = syn.get_labels(X_mesh)
 
-    run = st.button("Run heat map generation")
-    if run:
-        dv, baseline_model = dv_function.predict_dv(X_mesh, y_mesh)
-        base_model_func = baseline_model.predict if baseline_model is not None else None
+    print("Computing dvs")
+    dv, baseline_model = dv_function.predict_dv(X_mesh, y_mesh)
 
-        print("Creating plot")
-        # Create the plot
-        fig = go.Figure()
+    print("Computed dvs")
+    base_model_func = baseline_model.predict if baseline_model is not None else None
 
-        fig.add_trace(get_scatter_trace(X_train, y_train))
-        fig.add_trace(get_heatmap_trace(dv, X_BOUNDS, Y_BOUNDS, num_points_heatmap, "Data Values"))
+    print("Creating plot")
+    # Create the plot
+    fig = go.Figure()
 
-        fig.add_trace(get_contour_trace_from_model(syn.get_labels, X_BOUNDS, Y_BOUNDS,
-                                                   NUM_POINTS_MESH, 'True decision boundary',
-                                                   colorscale='rdbu'))
+    fig.add_trace(get_scatter_trace(X_train, y_train))
+    fig.add_trace(get_heatmap_trace(dv, X_BOUNDS, Y_BOUNDS, num_points_heatmap, "Data Values"))
 
-        fig.add_trace(get_contour_trace_from_model(base_model_func, X_BOUNDS, Y_BOUNDS,
-                                                   NUM_POINTS_MESH, 'Models decision boundary'))
+    fig.add_trace(get_contour_trace_from_model(syn.get_labels, X_BOUNDS, Y_BOUNDS,
+                                               NUM_POINTS_MESH, 'True decision boundary',
+                                               colorscale='rdbu'))
 
-        model_name = "" if dv_function.NAME != LOODV.NAME else ' with ' + dv_function.model_class.NAME
-        fig.update_layout(title={
-            'text': f'Data value heatmap for {dv_function.NAME}{model_name}',
-            'y': 0.85,
-            'x': 0.5,
-            'xanchor': 'center',
-            'yanchor': 'top'})
+    fig.add_trace(get_contour_trace_from_model(base_model_func, X_BOUNDS, Y_BOUNDS,
+                                               NUM_POINTS_MESH, 'Models decision boundary'))
 
-        st.spinner("Heatmap in Progress")
-        plot1_placeholder.plotly_chart(fig)
-        print("Plotted!")
-        print()
-        time.sleep(6)
+    model_name = "" if dv_function.NAME != LOODV.NAME else ' with ' + dv_function.model_class.NAME
+    fig.update_layout(title={
+        'text': f'Data value heatmap for {dv_function.NAME}{model_name}',
+        'y': 0.85,
+        'x': 0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'})
+
+    st.spinner("Heatmap in Progress")
+    plot1_placeholder.plotly_chart(fig)
+    print("Plotted!")
+    print()
+    time.sleep(6)
 
 
 if __name__ == "__main__":
