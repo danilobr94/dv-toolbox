@@ -1,14 +1,14 @@
 """Sidebar components related to the model selection."""
 import streamlit as st
 
-from models.NaiveBayes import NaiveBayes
-from models.NeuralNetwork import NN
-from models.RandomForest import RF
-from models.DecisionTree import DT
-from models.LogisticRegression import LogReg
-from models.KNearesNeighbors import KNN
-from models.SVC import SVC_
-from models.GradientBoosting import GB
+from models.naive_bayes import NaiveBayes
+from models.nn import NN
+from models.rf import RF
+from models.decision_tree import DT
+from models.log_reg import LogReg
+from models.knn import KNN
+from models.svc import SVC_
+from models.gradient_boosting import GB
 
 MODELS = (NN, NaiveBayes, RF, DT, LogReg, KNN, SVC_, GB)
 

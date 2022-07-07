@@ -5,7 +5,7 @@ import streamlit as st
 
 from utils import StreamlitProgressBar
 from ui.model_selection_components import num_models_selector
-from models.NeuralNetwork import NN
+from models.nn import NN
 from .base import DVMethodBase
 
 

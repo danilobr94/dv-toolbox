@@ -1,4 +1,3 @@
-from sklearn import svm
 import streamlit as st
 from sklearn.svm import SVC
 from .base import ModelBase

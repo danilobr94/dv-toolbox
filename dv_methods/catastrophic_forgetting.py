@@ -5,7 +5,7 @@ import sklearn as sk
 import streamlit as st
 import numpy as np
 
-from models.NeuralNetwork import NN
+from models.nn import NN
 from utils import StreamlitProgressBar
 from .base import DVMethodBase
 

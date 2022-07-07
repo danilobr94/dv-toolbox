@@ -2,7 +2,7 @@
 import numpy as np
 import sklearn
 
-from models.NeuralNetwork import NN
+from models.nn import NN
 from ui.model_selection_components import num_models_selector
 from .base import DVMethodBase
 import streamlit as st
