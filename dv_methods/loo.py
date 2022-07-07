@@ -4,27 +4,22 @@ import sklearn
 
 
 from .base import DVMethodBase
-from ui.sidebar_components import model_selector
+from ui.model_selection_components import model_selector
 from dv_methods.metrics import DecisionBoundaryDifference
-from ui.sidebar_components import X_BOUNDS, Y_BOUNDS
+from ui.data_selection_components import X_BOUNDS, Y_BOUNDS
 from utils import StreamlitProgressBar
 
 
-class LOODV(DVMethodBase):
+class LOODV(DVMethodBase):  # noqa
     """"""
 
     NAME = "Leave One Out"
     URL = "TODO"
 
-    def __init__(self, X_base=None, y_base=None):
-        """
+    def __init__(self, X_base=None, y_base=None):  # noqa
+        """"""
+        super().__init__(X_base, y_base)
 
-        Args:
-            model:
-            metric:
-            X_base:
-            y_base:
-        """
         self.model_class, self.model = model_selector()
         self.base_model = sklearn.base.clone(self.model)
         self.base_model.fit(X_base, y_base)
@@ -34,19 +29,16 @@ class LOODV(DVMethodBase):
                                                  baseline_model=self.base_model.predict,
                                                  mesh_size=500).compute_difference
 
-        self.X_base = X_base
-        self.y_base = y_base
-
-    def predict_dv(self, X, y, inv_diff=False):
+    def predict_dv(self, X, y, inv_diff=False):  # noqa
         """"""
 
         db_diff = []
         for i in StreamlitProgressBar(range(X.shape[0])):
             if self.X_base is not None:
-                X_train_new = np.vstack([self.X_base, X[i]])
+                X_train_new = np.vstack([self.X_base, X[i]])  # noqa
                 y_train_new = np.hstack([self.y_base, y[i]])
             else:
-                X_train_new = np.delete(X, i, 0)
+                X_train_new = np.delete(X, i, 0)  # noqa
                 y_train_new = np.delete(y, i)
 
             self.model.fit(X_train_new, y_train_new)

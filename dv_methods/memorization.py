@@ -4,7 +4,7 @@ import sklearn
 import streamlit as st
 
 from utils import StreamlitProgressBar
-from ui.sidebar_components import num_models_selector
+from ui.model_selection_components import num_models_selector
 from models.NeuralNetwork import NN
 from .base import DVMethodBase
 
@@ -14,27 +14,18 @@ class MemorizationDV(DVMethodBase):
     NAME = "Memorization"
     URL = "TODO"
 
-    def __init__(self, X_base=None, y_base=None):
-        """
-
-        Args:
-            X_base:
-            y_base:
-        """
-
-        self.X_base = X_base
-        self.y_base = y_base
+    def __init__(self, X_base=None, y_base=None):  # noqa
+        """"""
+        super().__init__(X_base, y_base)
 
         container = st.sidebar.expander("Configure the neural network", True)
-
         with container:
             self.model = NN.param_selector()
 
         self.num_models = num_models_selector(container)
 
-    def predict_dv(self, X, y, *args):
+    def predict_dv(self, X, y, *args):  # noqa
         """"""
-        db_diff = []
 
         # Make predictions with the baseline model
         base_predictions = []
@@ -57,7 +48,7 @@ class MemorizationDV(DVMethodBase):
                 X_train_new = np.vstack([self.X_base, X[i]])
                 y_train_new = np.hstack([self.y_base, y[i]])
             else:
-                X_train_new = np.delete(X, i, 0)
+                X_train_new = np.delete(X, i, 0)  # noqa
                 y_train_new = np.delete(y, i)
 
             pred = []

@@ -4,7 +4,7 @@ import numpy as np
 import streamlit as st
 import time
 
-from ui.sidebar_components import LABEL_AUTO
+from ui.data_selection_components import LABEL_AUTO
 
 
 class StreamlitProgressBar:
