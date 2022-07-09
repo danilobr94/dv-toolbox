@@ -78,6 +78,6 @@ def app():
 if __name__ == "__main__":
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.set_page_config(page_title="Experiment with decision boundary",
-                       page_icon="images/fhg_logo.png",
+                       page_icon="images/dallemini_2022-7-9_15-49-15.png",
                        layout="centered")
     app()

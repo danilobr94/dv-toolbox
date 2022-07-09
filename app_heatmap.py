@@ -20,8 +20,8 @@ DV_METHODS = (EnsembleOOD, ForgettingDV, MemorizationDV,
 NUM_POINTS_MESH = 500  # Number of points for decision boundary mesh grid
 
 INSTRUCTION_TEXT = "Select a data valuation method from the sidebar and plot the resulting heatmap of data values." \
-                   " \n" \
-                   "In the background a mesh-grid is spanned over the range of the plot and each point on the mesh" \
+                   " \n\n" \
+                   "In the background a mesh-grid is spanned over the range of the plot and each point on the mesh " \
                    "is valued according to the selected method."
 
 
@@ -82,5 +82,7 @@ def app():
 
 if __name__ == "__main__":
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.set_page_config(page_title="Create Heatmap", page_icon="images/fhg_logo.png", layout="centered")
+    st.set_page_config(page_title="Create Heatmap",
+                       page_icon="images/dallemini_2022-7-9_15-49-15.png",
+                       layout="centered")
     app()
