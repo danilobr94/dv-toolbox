@@ -1,4 +1,11 @@
-"""Data values with catastrophic forgetting and latest-learned samples."""
+"""Data values with catastrophic forgetting and latest-learned samples.
+
+Catastrophic forgetting counts how often a point was forgotten again during training after being correctly classified
+at least once.
+
+Latest learned uses the first epoch a point was classified correctly for the first time as its value.
+
+"""
 from abc import ABC
 import sklearn.base
 import sklearn as sk
@@ -11,10 +18,10 @@ from .base import DVMethodBase
 
 
 class _ForgettingBase(DVMethodBase, ABC):
-    """"""
+    """Base class for the two forgetting methods."""
 
     def __init__(self, X_base=None, y_base=None):  # noqa
-        """"""
+        """The init function is the same for both catastrophic forgetting and latest learned."""
         super().__init__(X_base, y_base)
 
         # self.hidden_layer_sizes = size_hidden_layer_selector(container)
@@ -66,7 +73,7 @@ class ForgettingDV(_ForgettingBase):
 
 
 class LastLearnedDV(_ForgettingBase):
-    """Estimate data value with forgetting events."""
+    """Estimate data value as the epoch a point was correctly classified in for the first time."""
 
     NAME = "Latest Learned"
     URL = "TODO"

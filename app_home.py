@@ -1,17 +1,19 @@
 """Entrance point for data value computation."""
 import sklearn.base
-import sklearn.base
+
 from dv_methods.metrics import DecisionBoundaryDifference
-from ui.sidebar_components import *
+from ui.data_selection_components import X_BOUNDS, Y_BOUNDS, dataset_selector, label_selector, point_slider
+from ui.sidebar_components import show_info, project_links
+from ui.model_selection_components import model_selector
+
 from utils import *
 
 NUM_POINTS_MESH = 500
 
 
 def app():
-    # st.set_page_config(layout="wide")
 
-    # sidebar
+    # Sidebar
     project_links()
 
     x_train, x_test, y_train, y_test, syn = dataset_selector()
@@ -27,15 +29,11 @@ def app():
     base_model = sklearn.base.clone(model)
     base_model.fit(x_train, y_train)
 
-    # body
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    col1, col2 = st.columns((1, 1))
-
-    with col1:
+    # Body
+    c = st.container()
+    with c:
         plot1_placeholder = st.empty()
-
-    x_new = point_slider(col1)
-    model_url_placeholder = st.empty()
+        x_new = point_slider(c)
 
     # Computations
     x_train_new, y_train_new = add_point(x_train, y_train, x_new, label_new, syn)
@@ -74,14 +72,12 @@ def app():
                           'yanchor': 'top'},
                       )
 
-    plot1_placeholder.plotly_chart(fig, use_container_width=False)
-
-    # TODO: print the accuracy
-    base_acc_test = base_model.score(x_test, y_test)
-    new_model_acc_test = model.score(x_test, y_test)
-
-    model_url_placeholder.markdown(model_class.URL)
+    plot1_placeholder.plotly_chart(fig, use_container_width=True)
 
 
 if __name__ == "__main__":
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.set_page_config(page_title="Experiment with decision boundary",
+                       page_icon="images/fhg_logo.png",
+                       layout="centered")
     app()

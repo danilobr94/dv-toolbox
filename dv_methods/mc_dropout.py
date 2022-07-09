@@ -1,3 +1,9 @@
+"""Data valuation with monte-carlo dropout.
+
+The value of a point is teh uncertainty related to the point as computed by MC drop out.
+This is the only application of keras in this toolbox, because slearn does not provide an option for MC dropout.
+
+"""
 import numpy as np
 import tensorflow as tf
 import streamlit as st

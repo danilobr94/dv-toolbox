@@ -1,4 +1,9 @@
-"""Data valuation with memorization."""
+"""Data valuation with memorization.
+
+The value of a point is given by the difference, how likely the points is remembered when being part of the
+training set and when not.
+
+"""
 import numpy as np
 import sklearn
 import streamlit as st
@@ -10,7 +15,7 @@ from .base import DVMethodBase
 
 
 class MemorizationDV(DVMethodBase):
-    """"""
+    """Data valuation with memorization."""
     NAME = "Memorization"
     URL = "TODO"
 

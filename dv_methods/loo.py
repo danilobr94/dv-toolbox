@@ -1,7 +1,6 @@
-"""Leave-one-out data valuation"""
+"""Leave-one-out data valuation."""
 import numpy as np
 import sklearn
-
 
 from .base import DVMethodBase
 from ui.model_selection_components import model_selector
@@ -11,7 +10,7 @@ from utils import StreamlitProgressBar
 
 
 class LOODV(DVMethodBase):  # noqa
-    """"""
+    """Leave-one-out data valuation."""
 
     NAME = "Leave One Out"
     URL = "TODO"

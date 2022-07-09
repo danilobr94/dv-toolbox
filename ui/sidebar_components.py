@@ -1,6 +1,6 @@
 """All side bar components not related to the data set or model selection."""
-import streamlit as st
 from typing import Tuple
+import streamlit as st
 
 from dv_methods.base import DVMethodBase
 
@@ -8,16 +8,16 @@ from dv_methods.base import DVMethodBase
 def project_links(container=None):
     """Links to related apps."""
     container = st.sidebar.expander(
-        "Related Apps", True) if container is None else container
+        "Other Apps", False) if container is None else container
 
     with container:
-        st.write("[Create a gif](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_autorun.py)")
-        st.write("[Play with the decision boundary](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_home.py)")
+        # st.write("[Create a gif](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_autorun.py)")
+        st.write("[Experiment with decision boundary](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_home.py)")
         st.write("[Create heatmap](https://share.streamlit.io/danilobr94/dv-toolbox/main/app_heatmap.py)")
 
 
 def show_info():
-    """"""
+    """Displays IPA icon and link in the sidebar."""
     st.sidebar.markdown("[<img src=https://danilobr94.github.io/dv-toolbox/images/ipa_logo.png width=70% height=70%>]"
                         "(https://www.ipa.fraunhofer.de/)",
                         unsafe_allow_html=True,
@@ -25,7 +25,7 @@ def show_info():
 
 
 def num_repetitions_selector(container=None):
-    """"""
+    """Set the number of repetitions for an experiment."""
     container = st.sidebar.expander(
         "Number of Repetitions", True) if container is None else container
 
@@ -51,7 +51,7 @@ def step_selector(container=None):
 
 
 def step_size_selector(container=None):
-    """"""
+    """Set the step-size for the mesh-grid."""
     container = st.sidebar.expander(
         "Step size", True) if container is None else container
 
@@ -63,7 +63,7 @@ def step_size_selector(container=None):
 
 
 def dv_fn_selector(dv_options: Tuple[DVMethodBase], container=None):
-    """"""
+    """Set the data valuation method."""
     dv_container = st.sidebar.expander("Data Valuation Method", True) if container is None else container
 
     with dv_container:
